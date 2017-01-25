@@ -13,6 +13,7 @@ import Alamofire
 class DetailViewController: UIViewController
 {
     private var gifUrl: URL?
+    private var dictionnaryInformations: NSDictionary?
     @IBOutlet weak var webViewGif: UIWebView!
     @IBOutlet weak var buttonClose: UIButton!
     @IBOutlet weak var buttonAdd: UIButton!
@@ -22,8 +23,9 @@ class DetailViewController: UIViewController
     }
     @IBAction func AddToFavorites(_ sender: Any) {
     }
-    func setGifUrl(url: String)
+    func SetGifUrl(dict: NSDictionary, url: String)
     {
+        dictionnaryInformations = dict
         gifUrl = URL(string : url)!
     }
     

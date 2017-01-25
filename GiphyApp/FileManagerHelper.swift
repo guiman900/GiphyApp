@@ -12,8 +12,9 @@ import UIKit
 class FileManagerHelper
 {
     static private var gifs = NSMutableArray()
+    static private var loaded = false
     
-    static func LoadGifs()
+    private static func loadGifs()
     {
         let file = "/gifs.txt"
         if let dirs : [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true) {
@@ -21,8 +22,8 @@ class FileManagerHelper
             let path = URL(fileURLWithPath: dir + file)
             do {
                 let text = try String(contentsOfFile: path.path, encoding: String.Encoding.utf8)
-                // Add Json Library
-                // gifs = JSONParseDictionary(text) as? Array<NSDictionary>
+                gifs = JSONParseDictionary(text)
+                loaded = true
                 for gif in gifs {
                     let imageUrl = (((gif as! NSDictionary).value(forKey: "images") as? NSDictionary)?.value(forKey: "fixed_width_downsampled") as? NSDictionary)?.value(forKey: "url")
                     
@@ -45,28 +46,99 @@ class FileManagerHelper
     
     private static func checkIfDataIsLoad()
     {
-        if gifs.count == 0
+        if loaded == true
         {
-            LoadGifs()
+            loadGifs()
         }
+    }
+    
+    static func GetGifById(id: String) -> NSDictionary?
+    {
+        checkIfDataIsLoad()
+        for item in gifs
+        {
+            if (item as! NSDictionary)["id"] as! String == id
+            {
+                return item as! NSDictionary
+            }
+        }
+        return nil
+    }
+    
+    static func GetGifs() -> NSMutableArray
+    {
+        checkIfDataIsLoad()
+        return gifs
     }
     
     static func AddFavoritesGif(gif: NSDictionary)
     {
         checkIfDataIsLoad()
         gifs.add(gif)
-        SaveGifs()
+        saveGifs()
     }
     
-    static func RemoveFavoritesGif()
+    static func RemoveFavoritesGif(id: String)
     {
         checkIfDataIsLoad()
-        // Find by ID
-        SaveGifs()
+        var itemToDelete: NSDictionary? = nil
+        for item in gifs
+        {
+            if (item as! NSDictionary)["id"] as! String == id
+            {
+                itemToDelete = item as? NSDictionary
+                break
+            }
+        }
+        gifs.remove(itemToDelete!)
+        saveGifs()
     }
     
-    static func SaveGifs()
+    private static func saveGifs()
     {
-        
+        let file = "/gifs.txt"
+        if let dirs: [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
+        {
+            let dir = dirs[0] //documents directory
+            let path = URL(fileURLWithPath: dir + file)
+            let text = JSONStringify(self.gifs as AnyObject, prettyPrinted: true)
+            do {
+                try text.write(toFile: path.path, atomically: false, encoding: String.Encoding.utf8)
+            }
+            catch {
+                print("fail to save")
+            }
+        }
+    }
+    
+    private static func JSONStringify(_ value: AnyObject, prettyPrinted: Bool = false) -> String {
+        let options = JSONSerialization.WritingOptions.prettyPrinted
+        if JSONSerialization.isValidJSONObject(value) {
+            
+            do {
+                let data = try JSONSerialization.data(withJSONObject: value, options: options)
+                if let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
+                    return string as String
+                }
+            }
+            catch {
+                print("fail to serialise")
+            }
+        }
+        return ""
+    }
+    
+    private static func JSONParseDictionary(_ jsonString: String) -> NSMutableArray
+    {
+        do {
+            if let data = jsonString.data(using: String.Encoding.utf8) {
+                let dictionary = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSMutableArray
+                return dictionary!
+            }
+        }
+        catch {
+            print("Fail to load")
+        }
+        return NSMutableArray()
     }
 }

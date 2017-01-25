@@ -67,7 +67,7 @@ class FirstViewController: UIViewController, UICollectionViewDataSource, UIColle
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: "DetailViewControllerID") as! DetailViewController
-        nextViewController.setGifUrl(url: ((images[indexPath.row].value(forKey: "images") as? NSDictionary)?.value(forKey: "fixed_height") as? NSDictionary)?.value(forKey: "url") as! String)
+        nextViewController.SetGifUrl(dict: images[indexPath.row], url: ((images[indexPath.row].value(forKey: "images") as? NSDictionary)?.value(forKey: "fixed_height") as? NSDictionary)?.value(forKey: "url") as! String)
         self.present(nextViewController, animated:true, completion:nil)
         
     }
