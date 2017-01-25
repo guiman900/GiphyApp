@@ -14,6 +14,7 @@ class FirstViewController: UIViewController, UICollectionViewDataSource, UIColle
     private var images = Array<NSDictionary>()
     private let reuseIdentifier = "cell"
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.images.count
@@ -73,10 +74,26 @@ class FirstViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.collectionView.isHidden = true
+        activityIndicator.startAnimating()
         Alamofire.request("http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC").responseJSON { response in
             if let JSON = response.result.value {
                 self.images = (JSON as! NSDictionary).value(forKey: "data") as! Array<NSDictionary>
+                for item in self.images
+                {
+                    let imageUrl = ((item.value(forKey: "images") as? NSDictionary)?.value(forKey: "fixed_width_downsampled") as? NSDictionary)?.value(forKey: "url")
+                    
+                    if ImageCacheHelper.GetImageByUrl(url: imageUrl as! String) == nil
+                    {
+                        if let url = NSURL(string: imageUrl as! String) {
+                            if let data = NSData(contentsOf: url as URL) {
+                                ImageCacheHelper.SaveImage(image: UIImage(data: data as Data)!, id: (item.value(forKey: "id") as! String), url: imageUrl as! String)
+                            }
+                        }
+                    }
+                }
+                self.activityIndicator.stopAnimating()
+                self.collectionView.isHidden = false
                 self.collectionView.reloadData()
             }
         }

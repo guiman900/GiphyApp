@@ -23,6 +23,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="NWL-AV-mS2">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5Th-cr-FFh">
                                 <rect key="frame" x="16" y="28" width="343" height="582"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -67,6 +70,8 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="NWL-AV-mS2" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="FWa-uB-4Ox"/>
+                            <constraint firstItem="NWL-AV-mS2" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="KTY-qX-zZF"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="5Th-cr-FFh" secondAttribute="bottom" constant="8" symbolic="YES" id="aDD-5R-Ukg"/>
                             <constraint firstItem="5Th-cr-FFh" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="eXQ-Y7-mdW"/>
                             <constraint firstItem="5Th-cr-FFh" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="8" symbolic="YES" id="eiu-gD-kEe"/>
@@ -74,6 +79,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="mostRecent" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="NWL-AV-mS2" id="psC-af-RCj"/>
                         <outlet property="collectionView" destination="5Th-cr-FFh" id="boR-Uc-dDO"/>
                     </connections>
                 </viewController>
@@ -182,6 +188,9 @@
                                     <outlet property="delegate" destination="8rJ-Kc-sve" id="Nm8-ZK-pfI"/>
                                 </connections>
                             </searchBar>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="A41-GU-hzZ">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ou2-TY-8pr">
                                 <rect key="frame" x="16" y="72" width="343" height="538"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -224,13 +233,16 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="A41-GU-hzZ" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="8eM-YQ-XK7"/>
                             <constraint firstItem="r97-bb-cBF" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="8" id="AZx-so-0Ha"/>
                             <constraint firstAttribute="trailing" secondItem="r97-bb-cBF" secondAttribute="trailing" id="C8P-Kn-Rb8"/>
+                            <constraint firstItem="A41-GU-hzZ" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" id="CEE-HU-BHW"/>
                             <constraint firstItem="r97-bb-cBF" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="UAe-9c-LJy"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="search" id="cPa-gy-q4n"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="A41-GU-hzZ" id="1ul-hk-MAh"/>
                         <outlet property="collectionView" destination="Ou2-TY-8pr" id="dgP-wf-eQ1"/>
                     </connections>
                 </viewController>
@@ -250,7 +262,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0Pi-hj-upH">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fnb-dc-ndd">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0Pi-hj-upH">
                                 <rect key="frame" x="16" y="28" width="343" height="582"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="YRO-2f-s85">
@@ -294,11 +309,14 @@
                             <constraint firstItem="0Pi-hj-upH" firstAttribute="top" secondItem="qMh-aG-h0Y" secondAttribute="bottom" constant="8" symbolic="YES" id="32p-8u-Nxt"/>
                             <constraint firstItem="hlp-qK-nzF" firstAttribute="top" secondItem="0Pi-hj-upH" secondAttribute="bottom" constant="8" symbolic="YES" id="DKE-kk-LNE"/>
                             <constraint firstItem="0Pi-hj-upH" firstAttribute="trailing" secondItem="JbW-8T-ScU" secondAttribute="trailingMargin" id="Exx-gG-P0l"/>
+                            <constraint firstItem="fnb-dc-ndd" firstAttribute="centerX" secondItem="JbW-8T-ScU" secondAttribute="centerX" id="HXr-Nx-tjw"/>
                             <constraint firstItem="0Pi-hj-upH" firstAttribute="leading" secondItem="JbW-8T-ScU" secondAttribute="leadingMargin" id="VKD-Az-Qr3"/>
+                            <constraint firstItem="fnb-dc-ndd" firstAttribute="centerY" secondItem="JbW-8T-ScU" secondAttribute="centerY" id="euo-bG-B0t"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="tqv-Eh-1Is"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="fnb-dc-ndd" id="56R-qU-eyy"/>
                         <outlet property="collectionView" destination="0Pi-hj-upH" id="fr2-UK-jGr"/>
                     </connections>
                 </viewController>

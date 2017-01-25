@@ -14,6 +14,7 @@ class FavoritesViewController: UIViewController, UICollectionViewDataSource, UIC
     private var images = Array<NSDictionary>()
     private let reuseIdentifier = "cell"
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.images.count
@@ -73,8 +74,13 @@ class FavoritesViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.collectionView.isHidden = true
+        self.activityIndicator.startAnimating()
         self.images = FileManagerHelper.GetGifs() as NSArray as! [NSDictionary]
+        self.activityIndicator.stopAnimating()
+        self.collectionView.isHidden = false
         self.collectionView.reloadData()
+        
 
     }
     
