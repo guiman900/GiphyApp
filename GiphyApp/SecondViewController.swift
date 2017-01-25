@@ -76,7 +76,6 @@ class SecondViewController: UIViewController, UISearchBarDelegate, UICollectionV
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("You selected cell #\(indexPath.item)!")
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: "DetailViewControllerID") as! DetailViewController
@@ -97,21 +96,30 @@ class SecondViewController: UIViewController, UISearchBarDelegate, UICollectionV
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         let newString = searchBar.text?.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
-        var url = "http://api.giphy.com/v1/gifs/search?q=\(newString)&api_key=dc6zaTOxFJmzC"
-        print(url)
         Alamofire.request("http://api.giphy.com/v1/gifs/search?q=\(newString!)&api_key=dc6zaTOxFJmzC").responseJSON { response in
             if let JSON = response.result.value {
                 self.images = (JSON as! NSDictionary).value(forKey: "data") as! Array<NSDictionary>
                 self.collectionView.reloadData()
             }
         }
+        view.endEditing(true)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     }
     
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 
