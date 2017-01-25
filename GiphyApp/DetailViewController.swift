@@ -20,8 +20,14 @@ class DetailViewController: UIViewController
     @IBOutlet weak var buttonDelete: UIButton!
     
     @IBAction func RemoveToFavorites(_ sender: Any) {
+        FileManagerHelper.RemoveFavoritesGif(id: (dictionnaryInformations?["id"]) as! String)
+        buttonAdd.isHidden = false
+        buttonDelete.isHidden = true
     }
     @IBAction func AddToFavorites(_ sender: Any) {
+        FileManagerHelper.AddFavoritesGif(gif: dictionnaryInformations!)
+        buttonAdd.isHidden = true
+        buttonDelete.isHidden = false
     }
     func SetGifUrl(dict: NSDictionary, url: String)
     {
@@ -30,17 +36,33 @@ class DetailViewController: UIViewController
     }
     
     @IBAction func ClosePopUp(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
-        
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         buttonClose.layer.borderColor = UIColor.black.cgColor
         buttonClose.layer.borderWidth = 1
         buttonClose.layer.cornerRadius = 8
+        
+        buttonDelete.layer.borderColor = UIColor.black.cgColor
+        buttonDelete.layer.borderWidth = 1
+        buttonDelete.layer.cornerRadius = 8
+        
+        buttonAdd.layer.borderColor = UIColor.black.cgColor
+        buttonAdd.layer.borderWidth = 1
+        buttonAdd.layer.cornerRadius = 8
+        
         webViewGif.loadRequest(URLRequest(url: gifUrl!))
+        if FileManagerHelper.IsGifFavorite(id: (dictionnaryInformations?["id"]) as! String) == false
+        {
+            buttonAdd.isHidden = false
+        }
+        else {
+            buttonDelete.isHidden = false
+        }
     }
     
     override func didReceiveMemoryWarning() {

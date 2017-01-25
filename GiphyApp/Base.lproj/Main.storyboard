@@ -201,12 +201,12 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ELJ-QI-Ask">
-                                                    <rect key="frame" x="0.0" y="8" width="152" height="128"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="152" height="136"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="ELJ-QI-Ask" firstAttribute="top" secondItem="JWJ-f1-rmr" secondAttribute="topMargin" id="Csm-bC-Nil"/>
+                                            <constraint firstItem="ELJ-QI-Ask" firstAttribute="top" secondItem="JWJ-f1-rmr" secondAttribute="topMargin" constant="-8" id="Csm-bC-Nil"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="ELJ-QI-Ask" secondAttribute="bottom" constant="-12" id="WDK-vU-wcd"/>
                                             <constraint firstAttribute="trailing" secondItem="ELJ-QI-Ask" secondAttribute="trailing" id="gkK-if-ACp"/>
                                             <constraint firstItem="ELJ-QI-Ask" firstAttribute="leading" secondItem="JWJ-f1-rmr" secondAttribute="leading" id="vsR-uq-UQq"/>
@@ -249,13 +249,62 @@
                     <view key="view" contentMode="scaleToFill" id="JbW-8T-ScU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0Pi-hj-upH">
+                                <rect key="frame" x="16" y="28" width="343" height="582"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="YRO-2f-s85">
+                                    <size key="itemSize" width="145" height="123"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Fib-qV-c22" customClass="CustomCollectionCell" customModule="GiphyApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="145" height="123"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="145" height="123"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2nD-c3-71s">
+                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="123"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="2nD-c3-71s" firstAttribute="top" secondItem="Fib-qV-c22" secondAttribute="top" id="7a8-lO-q7h"/>
+                                            <constraint firstItem="2nD-c3-71s" firstAttribute="leading" secondItem="Fib-qV-c22" secondAttribute="leading" id="Fev-HN-fei"/>
+                                            <constraint firstAttribute="trailing" secondItem="2nD-c3-71s" secondAttribute="trailing" id="M6B-fe-xGP"/>
+                                            <constraint firstAttribute="bottom" secondItem="2nD-c3-71s" secondAttribute="bottom" id="zh8-EX-9jx"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="Image" destination="2nD-c3-71s" id="yf9-6h-cML"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="kMH-jA-nlK" id="ni4-WY-An8"/>
+                                    <outlet property="delegate" destination="kMH-jA-nlK" id="aAT-sM-iQO"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="0Pi-hj-upH" firstAttribute="top" secondItem="qMh-aG-h0Y" secondAttribute="bottom" constant="8" symbolic="YES" id="32p-8u-Nxt"/>
+                            <constraint firstItem="hlp-qK-nzF" firstAttribute="top" secondItem="0Pi-hj-upH" secondAttribute="bottom" constant="8" symbolic="YES" id="DKE-kk-LNE"/>
+                            <constraint firstItem="0Pi-hj-upH" firstAttribute="trailing" secondItem="JbW-8T-ScU" secondAttribute="trailingMargin" id="Exx-gG-P0l"/>
+                            <constraint firstItem="0Pi-hj-upH" firstAttribute="leading" secondItem="JbW-8T-ScU" secondAttribute="leadingMargin" id="VKD-Az-Qr3"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="tqv-Eh-1Is"/>
+                    <connections>
+                        <outlet property="collectionView" destination="0Pi-hj-upH" id="fr2-UK-jGr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxL-Yx-O89" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1" y="735"/>
+            <point key="canvasLocation" x="-2.3999999999999999" y="734.48275862068976"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">

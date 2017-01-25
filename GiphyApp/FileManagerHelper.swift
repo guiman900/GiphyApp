@@ -22,7 +22,7 @@ class FileManagerHelper
             let path = URL(fileURLWithPath: dir + file)
             do {
                 let text = try String(contentsOfFile: path.path, encoding: String.Encoding.utf8)
-                gifs = JSONParseDictionary(text)
+                gifs = JSONParseArray(text)
                 loaded = true
                 for gif in gifs {
                     let imageUrl = (((gif as! NSDictionary).value(forKey: "images") as? NSDictionary)?.value(forKey: "fixed_width_downsampled") as? NSDictionary)?.value(forKey: "url")
@@ -52,17 +52,17 @@ class FileManagerHelper
         }
     }
     
-    static func GetGifById(id: String) -> NSDictionary?
+    static func IsGifFavorite(id: String) -> Bool
     {
         checkIfDataIsLoad()
         for item in gifs
         {
             if (item as! NSDictionary)["id"] as! String == id
             {
-                return item as! NSDictionary
+                return true
             }
         }
-        return nil
+        return false
     }
     
     static func GetGifs() -> NSMutableArray
@@ -99,7 +99,7 @@ class FileManagerHelper
         let file = "/gifs.txt"
         if let dirs: [String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
         {
-            let dir = dirs[0] //documents directory
+            let dir = dirs[0]
             let path = URL(fileURLWithPath: dir + file)
             let text = JSONStringify(self.gifs as AnyObject, prettyPrinted: true)
             do {
@@ -128,12 +128,12 @@ class FileManagerHelper
         return ""
     }
     
-    private static func JSONParseDictionary(_ jsonString: String) -> NSMutableArray
+    private static func JSONParseArray(_ jsonString: String) -> NSMutableArray
     {
         do {
             if let data = jsonString.data(using: String.Encoding.utf8) {
-                let dictionary = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSMutableArray
-                return dictionary!
+                let mutableArray = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSMutableArray
+                return mutableArray!
             }
         }
         catch {

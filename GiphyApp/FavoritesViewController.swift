@@ -71,18 +71,15 @@ class FavoritesViewController: UIViewController, UICollectionViewDataSource, UIC
         self.present(nextViewController, animated:true, completion:nil)
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.images = FileManagerHelper.GetGifs() as NSArray as! [NSDictionary]
+        self.collectionView.reloadData()
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Load from File
-        /*
-        Alamofire.request("http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC").responseJSON { response in
-            if let JSON = response.result.value {
-                self.images = (JSON as! NSDictionary).value(forKey: "data") as! Array<NSDictionary>
-                self.collectionView.reloadData()
-            }
-        }
-        */
     }
     
     override func didReceiveMemoryWarning() {
