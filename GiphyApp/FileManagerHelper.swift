@@ -34,6 +34,7 @@ class FileManagerHelper
                             if let data = NSData(contentsOf: url as URL) {
                                 ImageCacheHelper.SaveImage(image: UIImage(data: data as Data)!, id: ((gif as! NSDictionary).value(forKey: "id") as! String), url: imageUrl as! String)
                             }
+                            
                         }
                     }
                 }

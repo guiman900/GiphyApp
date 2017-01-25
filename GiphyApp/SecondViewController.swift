@@ -22,13 +22,7 @@ class SecondViewController: UIViewController, UISearchBarDelegate, UICollectionV
     
     // make a cell for each cell index path
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        // get a reference to our storyboard cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! CustomCollectionCell
-        
-        // Use the outlet in our custom class to get a reference to the UILabel in the cell
-        //cell.myLabel.text = self.items[indexPath.item]
-        
         let imageUrl = ((images[indexPath.row].value(forKey: "images") as? NSDictionary)?.value(forKey: "fixed_width_downsampled") as? NSDictionary)?.value(forKey: "url")
         
         if let img = ImageCacheHelper.GetImageByUrl(url: imageUrl as! String)
@@ -51,7 +45,6 @@ class SecondViewController: UIViewController, UISearchBarDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //2
         let paddingSpace = 5 * (itemsPerRow + 1)
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
@@ -59,22 +52,17 @@ class SecondViewController: UIViewController, UISearchBarDelegate, UICollectionV
         return CGSize(width: widthPerItem, height: widthPerItem)
     }
     
-    //3
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 2)
     }
     
-    // 4
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5
     }
-    
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -119,6 +107,14 @@ class SecondViewController: UIViewController, UISearchBarDelegate, UICollectionV
                     self.collectionView.isHidden = false
                     self.collectionView.reloadData()
                 }
+                else
+                {
+                    let alert = UIAlertController(title: "Error", message: "Please check your network", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.activityIndicator.stopAnimating()
+                    self.collectionView.isHidden = false
+                }
             }
         }
         view.endEditing(true)
@@ -128,7 +124,6 @@ class SecondViewController: UIViewController, UISearchBarDelegate, UICollectionV
     }
     
     func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
     
@@ -138,13 +133,10 @@ class SecondViewController: UIViewController, UISearchBarDelegate, UICollectionV
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SecondViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-        
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     

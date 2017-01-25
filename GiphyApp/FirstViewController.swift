@@ -72,6 +72,7 @@ class FirstViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.present(nextViewController, animated:true, completion:nil)
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.isHidden = true
@@ -95,6 +96,13 @@ class FirstViewController: UIViewController, UICollectionViewDataSource, UIColle
                 self.activityIndicator.stopAnimating()
                 self.collectionView.isHidden = false
                 self.collectionView.reloadData()
+            }
+            else {
+                let alert = UIAlertController(title: "Error", message: "Please check your network", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                self.activityIndicator.stopAnimating()
+                self.collectionView.isHidden = false
             }
         }
     }
