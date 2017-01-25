@@ -73,10 +73,47 @@ class FirstViewController: UIViewController, UICollectionViewDataSource, UIColle
         
     }
     
+    let refreshControl = UIRefreshControl()
+
+    func refresh() {
+        Alamofire.request("http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC").responseJSON { response in
+            if let JSON = response.result.value {
+                self.images = (JSON as! NSDictionary).value(forKey: "data") as! Array<NSDictionary>
+                for item in self.images
+                {
+                    let imageUrl = ((item.value(forKey: "images") as? NSDictionary)?.value(forKey: "fixed_width_downsampled") as? NSDictionary)?.value(forKey: "url")
+                    
+                    if ImageCacheHelper.GetImageByUrl(url: imageUrl as! String) == nil
+                    {
+                        if let url = NSURL(string: imageUrl as! String) {
+                            if let data = NSData(contentsOf: url as URL) {
+                                ImageCacheHelper.SaveImage(image: UIImage(data: data as Data)!, id: (item.value(forKey: "id") as! String), url: imageUrl as! String)
+                            }
+                        }
+                    }
+                }
+                self.collectionView.reloadData()
+            }
+            else {
+                let alert = UIAlertController(title: "Error", message: "Please check your network", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshControl.tintColor = UIColor.black
+        refreshControl.addTarget(self, action: Selector(("refresh")), for: .valueChanged)
+        collectionView.addSubview(refreshControl)
+        collectionView.alwaysBounceVertical = true
+        
         self.collectionView.isHidden = true
         activityIndicator.startAnimating()
+        
+        
         Alamofire.request("http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC").responseJSON { response in
             if let JSON = response.result.value {
                 self.images = (JSON as! NSDictionary).value(forKey: "data") as! Array<NSDictionary>
