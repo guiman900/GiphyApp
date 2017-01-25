@@ -135,7 +135,7 @@ class FileManagerHelper
         print(jsonString)
         do {
             if let data = jsonString.data(using: String.Encoding.utf8) {
-                let mutableArray = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSMutableArray
+                let mutableArray = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSMutableArray
                 if mutableArray != nil {
                     return mutableArray!
                 }
