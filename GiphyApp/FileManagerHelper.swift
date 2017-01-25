@@ -21,9 +21,9 @@ class FileManagerHelper
             let dir = dirs[0]
             let path = URL(fileURLWithPath: dir + file)
             do {
-                let text = try String(contentsOfFile: path.path, encoding: String.Encoding.utf8)
+                var text = try String(contentsOfFile: path.path, encoding: String.Encoding.utf8)
+                text = text.replacingOccurrences(of: "\n", with: "", options: .literal, range: nil)
                 gifs = JSONParseArray(text)
-                loaded = true
                 for gif in gifs {
                     let imageUrl = (((gif as! NSDictionary).value(forKey: "images") as? NSDictionary)?.value(forKey: "fixed_width_downsampled") as? NSDictionary)?.value(forKey: "url")
                     
@@ -47,9 +47,10 @@ class FileManagerHelper
     
     private static func checkIfDataIsLoad()
     {
-        if loaded == true
+        if loaded == false
         {
             loadGifs()
+            loaded = true
         }
     }
     
@@ -131,10 +132,14 @@ class FileManagerHelper
     
     private static func JSONParseArray(_ jsonString: String) -> NSMutableArray
     {
+        print(jsonString)
         do {
             if let data = jsonString.data(using: String.Encoding.utf8) {
                 let mutableArray = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? NSMutableArray
-                return mutableArray!
+                if mutableArray != nil {
+                    return mutableArray!
+                }
+                return NSMutableArray()
             }
         }
         catch {
